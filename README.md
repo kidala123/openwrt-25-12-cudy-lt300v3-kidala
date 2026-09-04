@@ -1,3 +1,27 @@
+# OpenWrt 25.12 for Cudy LT300 v3
+
+Custom OpenWrt 25.12 image tailored for the **Cudy LT300 v3** (MediaTek MT7628AN, 64MB RAM, 16MB SPI Flash).
+
+Dirt-cheap hardware, but carries a well-documented, highly flexible internal modem with full AT command access (IMEI change, raw cellular telemetry, SMS). Built specifically to serve as a reliable LTE gateway and lightweight automation box.
+
+### Pre-installed Packages
+* `sms-tool`
+* `curl`
+* `luci-app-sqm`
+* `python3-light`
+
+### Wi-Fi Backports & Fixes
+Includes upstream backports for `mac80211` and an updated `mt76` tree with key `mt7603` fixes:
+* Switched to RCPI for accurate RSSI calculation (dropped broken `rssi_offset`)
+* Force SMPS mode to be reapplied on association
+* Dynamic EDCA params update on slot time change events
+* Proper TID frame buffering reported to `mac80211`
+* Power-save & U-APSD fixes (hardware PS buffering restoration, queue empty reporting, proper EOSP bit handling)
+* Fixed beacon SKB leak on tx error
+* Added support for `0x7592` EEPROM chip ID
+
+---
+
 ![OpenWrt logo](include/logo.png)
 
 OpenWrt Project is a Linux operating system targeting embedded devices. Instead
