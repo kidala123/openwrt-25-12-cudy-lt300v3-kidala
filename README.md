@@ -11,7 +11,7 @@ Dirt-cheap hardware, but carries a well-documented, highly flexible internal mod
 * `python3-light`
 
 ### Wi-Fi Backports & Fixes
-Includes upstream backports for `mac80211` and an updated `mt76` tree with key `mt7603` fixes:
+Includes upstream backports for `mac80211` and an updated `mt76` tree with key `mt7603` fixes. Most of the patches in this tree are custom fixes and are not part of upstream mt76.
 * Switched to RCPI for accurate RSSI calculation (dropped broken `rssi_offset`)
 * Force SMPS mode to be reapplied on association
 * Dynamic EDCA params update on slot time change events
@@ -19,6 +19,7 @@ Includes upstream backports for `mac80211` and an updated `mt76` tree with key `
 * Power-save & U-APSD fixes (hardware PS buffering restoration, queue empty reporting, proper EOSP bit handling)
 * Fixed beacon SKB leak on tx error
 * Added support for `0x7592` EEPROM chip ID
+* Removed dead WEP handling code from mt7603 key management
 
 ---
 
