@@ -10,16 +10,35 @@ Dirt-cheap hardware, but carries a well-documented, highly flexible internal mod
 * `luci-app-sqm`
 * `python3-light`
 
-### Wi-Fi Backports & Fixes
-Includes upstream backports for `mac80211` and an updated `mt76` tree with key `mt7603` fixes. Most of the patches in this tree are custom fixes and are not part of upstream mt76.
-* Switched to RCPI for accurate RSSI calculation (dropped broken `rssi_offset`)
-* Force SMPS mode to be reapplied on association
-* Dynamic EDCA params update on slot time change events
+### Wi-Fi Backports & Fixes (compared to stock OpenWrt 25.12)
+Includes upstream backports for `mac80211` and an updated `mt76` tree with key `mt7603` fixes.
+
+> **Note:** only changes to the `mt7603` driver (used by the MT7628 Wi-Fi) are listed here. The `mt76` update also pulls in upstream changes to the mt76 core and to other chips, which are not listed. Changes to the OpenWrt tree itself are listed in the next section.
+
+#### Upstream fixes
+Merged in [openwrt/mt76](https://github.com/openwrt/mt76), but not part of stock 25.12:
 * Proper TID frame buffering reported to `mac80211`
 * Power-save & U-APSD fixes (hardware PS buffering restoration, queue empty reporting, proper EOSP bit handling)
 * Fixed beacon SKB leak on tx error
 * Added support for `0x7592` EEPROM chip ID
+* Short frames looped back on power-save entry are no longer dropped
+* Global station WCID is now initialized
+
+#### Custom fixes
+Only in this fork, not part of upstream mt76:
+* Switched to RCPI for accurate RSSI calculation (dropped broken `rssi_offset`)
+* Force SMPS mode to be reapplied on association
+* Dynamic EDCA params update on slot time change events
 * Removed dead WEP handling code from mt7603 key management
+* Added hwmon temperature sensor (`temp1_input`, read from the chip's thermal ADC with the factory EEPROM calibration)
+
+### Changes in this repository (compared to stock OpenWrt 25.12)
+* `mt76`: source switched to the [kidala123/mt76](https://github.com/kidala123/mt76) fork, pinned to `4c00063f` (2026-10-17) instead of `39c960c3` (2026-03-19). Mirror hash check is disabled (`PKG_MIRROR_HASH:=skip`)
+* `mt76`: removed the stock backport patches from `package/kernel/mt76/patches`, since the fork already includes them. Three of them are not in the fork, and none affects the MT7628: mt7996 hif2 WED, mt7921 CLC records, Airoha NPU dependency tracking
+* `mac80211`: backported 5 patches from OpenWrt main that the newer `mt76` needs to build: `ieee80211_txq_aql_pending()`, interface and station iteration helpers, `assoc_link_id` reporting for non-MLD stations, airtime weight change notification
+* Build config for the Cudy LT300 v3 is tracked in git (`.config`)
+* `video` feed disabled in `feeds.conf.default`
+* Removed the `/etc/profile.d/apk-cheatsheet.sh` login banner (`opkg` to `apk` hints)
 
 ---
 
