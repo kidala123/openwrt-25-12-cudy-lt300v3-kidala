@@ -9,6 +9,7 @@ Dirt-cheap hardware, but carries a well-documented, highly flexible internal mod
 * `curl`
 * `luci-app-sqm`
 * `python3-light`
+* `watchcat`
 
 ### Wi-Fi Backports & Fixes (compared to stock OpenWrt 25.12)
 Includes upstream backports for `mac80211` and an updated `mt76` tree with key `mt7603` fixes.
